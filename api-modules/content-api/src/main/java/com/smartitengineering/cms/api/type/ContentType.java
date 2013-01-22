@@ -80,6 +80,13 @@ public interface ContentType extends Serializable {
   public Map<String, String> getParameterizedDisplayNames();
 
   /**
+   * Retrieve all reverse index definitions for the given content type indexed by its name, ensuring that 2 index of
+   * same name can not co-exist.
+   * @return The reverse indexes, may be empty map.
+   */
+  public Map<String, ReverseIndexDefinition> getReverseIndexDefinitions();
+
+  /**
    * Retrieves the definition type for this content type definition. It works as follows, if current defines its type 
    * then use that. If nothing is specified and there is no parent content type then return 
    * {@link DefinitionType#getDefaufltType()  default type} If nothing is specified and there is an inheritence in the 

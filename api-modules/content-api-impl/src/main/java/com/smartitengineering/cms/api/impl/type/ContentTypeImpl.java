@@ -30,7 +30,9 @@ import com.smartitengineering.cms.api.type.ContentStatus;
 import com.smartitengineering.cms.api.type.ContentType;
 import com.smartitengineering.cms.api.type.ContentTypeId;
 import com.smartitengineering.cms.api.type.FieldDef;
+import com.smartitengineering.cms.api.type.MutableReverseIndexDefinition;
 import com.smartitengineering.cms.api.type.RepresentationDef;
+import com.smartitengineering.cms.api.type.ReverseIndexDefinition;
 import com.smartitengineering.cms.spi.type.PersistableContentType;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +52,8 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author kaisar
  */
-public class ContentTypeImpl extends AbstractPersistableDomain<WritableContentType, ContentTypeId> implements PersistableContentType {
+public class ContentTypeImpl extends AbstractPersistableDomain<WritableContentType, ContentTypeId> implements
+    PersistableContentType {
 
   private ContentTypeId contentTypeId;
   private final Set<ContentStatus> contentStatus = new LinkedHashSet<ContentStatus>();
@@ -68,6 +71,8 @@ public class ContentTypeImpl extends AbstractPersistableDomain<WritableContentTy
   private final Map<ContentProcessingPhase, Collection<ContentCoProcessorDef>> procDefs =
                                                                                new EnumMap<ContentProcessingPhase, Collection<ContentCoProcessorDef>>(
       ContentProcessingPhase.class);
+  private final Map<String, ReverseIndexDefinition> reverseIndexDefinitions =
+                                                    new HashMap<String, ReverseIndexDefinition>();
   private DefinitionType definitionType;
 
   public ContentTypeImpl() {
@@ -489,5 +494,21 @@ public class ContentTypeImpl extends AbstractPersistableDomain<WritableContentTy
       return;
     }
     collection.remove(def);
+  }
+
+  public void addReverseIndexDefintion(MutableReverseIndexDefinition def) {
+    if (def != null && StringUtils.isNotBlank(def.getName())) {
+      reverseIndexDefinitions.put(def.getName(), def);
+    }
+  }
+
+  public void removeReverseIndexDefintion(MutableReverseIndexDefinition def) {
+    if (def != null && StringUtils.isNotBlank(def.getName())) {
+      reverseIndexDefinitions.remove(def.getName());
+    }
+  }
+
+  public Map<String, ReverseIndexDefinition> getReverseIndexDefinitions() {
+    return Collections.unmodifiableMap(reverseIndexDefinitions);
   }
 }

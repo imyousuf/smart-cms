@@ -45,11 +45,14 @@ import com.smartitengineering.cms.api.type.MutableEnumDataType;
 import com.smartitengineering.cms.api.type.MutableFieldDef;
 import com.smartitengineering.cms.api.type.MutableOtherDataType;
 import com.smartitengineering.cms.api.type.MutableRepresentationDef;
+import com.smartitengineering.cms.api.type.MutableReverseIndexDefinition;
 import com.smartitengineering.cms.api.type.MutableSearchDef;
 import com.smartitengineering.cms.api.type.MutableValidatorDef;
 import com.smartitengineering.cms.api.type.MutableVariationDef;
 import com.smartitengineering.cms.api.type.MutableResourceUri;
 import com.smartitengineering.cms.api.type.MutableStringDataType;
+import com.smartitengineering.cms.api.type.ReverseIndexDefinition;
+import com.smartitengineering.cms.api.type.UnitIndexParticipantDefinition;
 import com.smartitengineering.cms.api.workspace.WorkspaceId;
 import com.smartitengineering.cms.spi.SmartContentSPI;
 import com.smartitengineering.cms.spi.type.ContentTypeDefinitionParser;
@@ -428,5 +431,22 @@ public class ContentTypeLoaderImpl implements ContentTypeLoader {
 
   public MutableContentCoProcessorDef createMutableContentCoProcessorDef() {
     return new ContentCoProcessorDefImpl();
+  }
+
+  public MutableReverseIndexDefinition createMutableReverseIndexDefintion() {
+    return new ReverseIndexDefinitionImpl();
+  }
+
+  public MutableReverseIndexDefinition createMutableReverseIndexDefintion(ReverseIndexDefinition def) {
+    ReverseIndexDefinitionImpl impl = new ReverseIndexDefinitionImpl();
+    impl.setName(def.getName());
+    for (UnitIndexParticipantDefinition pDef : def.getIndexParticipants()) {
+      impl.addParticipant(pDef);
+    }
+    return impl;
+  }
+
+  public UnitIndexParticipantDefinition createParticipant(int index, FieldDef fieldDefintion) {
+    return new ParticipantDefinitionImpl(fieldDefintion, index);
   }
 }

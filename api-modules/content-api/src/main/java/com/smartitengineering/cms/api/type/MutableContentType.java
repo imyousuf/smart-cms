@@ -52,6 +52,18 @@ public interface MutableContentType
    */
   public Collection<FieldDef> getMutableFieldDefs();
 
+  /**
+   * Add a reverse index definition
+   * @param def The definition to add
+   */
+  public void addReverseIndexDefintion(MutableReverseIndexDefinition def);
+
+  /**
+   * Remove a reverse index defintion
+   * @param def The definition to remove
+   */
+  public void removeReverseIndexDefintion(MutableReverseIndexDefinition def);
+
   public Collection<RepresentationDef> getMutableRepresentationDefs();
 
   public Map<ContentProcessingPhase, Collection<ContentCoProcessorDef>> getMutableContentCoProcessorDefs();

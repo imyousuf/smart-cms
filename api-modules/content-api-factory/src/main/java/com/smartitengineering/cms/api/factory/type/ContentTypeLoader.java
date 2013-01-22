@@ -43,10 +43,13 @@ import com.smartitengineering.cms.api.type.MutableFieldDef;
 import com.smartitengineering.cms.api.type.MutableOtherDataType;
 import com.smartitengineering.cms.api.type.MutableRepresentationDef;
 import com.smartitengineering.cms.api.type.MutableResourceUri;
+import com.smartitengineering.cms.api.type.MutableReverseIndexDefinition;
 import com.smartitengineering.cms.api.type.MutableSearchDef;
 import com.smartitengineering.cms.api.type.MutableStringDataType;
 import com.smartitengineering.cms.api.type.MutableValidatorDef;
 import com.smartitengineering.cms.api.type.MutableVariationDef;
+import com.smartitengineering.cms.api.type.ReverseIndexDefinition;
+import com.smartitengineering.cms.api.type.UnitIndexParticipantDefinition;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -195,7 +198,7 @@ public interface ContentTypeLoader {
   public ContentTypeId createContentTypeId(WorkspaceId workspaceId, String namespace, String name);
 
   public MutableRepresentationDef createMutableRepresentationDef();
-  
+
   public MutableContentCoProcessorDef createMutableContentCoProcessorDef();
 
   public MutableVariationDef createMutableVariationDef();
@@ -215,4 +218,25 @@ public interface ContentTypeLoader {
   public String getSearchFieldNameWithoutTypeSpecifics(FieldDef fieldDef);
 
   public String getEntityTagValueForContentType(ContentType contentType);
+
+  /**
+   * Create a new reverse index definition
+   * @return New reverse index defintion
+   */
+  public MutableReverseIndexDefinition createMutableReverseIndexDefintion();
+
+  /**
+   * Convert the reverse index definition in the argument to a mutable version of it.
+   * @param def The definition to convert
+   * @return A mutable version of the specified definition
+   */
+  public MutableReverseIndexDefinition createMutableReverseIndexDefintion(ReverseIndexDefinition def);
+
+  /**
+   * Create a participant definition specifying its index and the field definition to take part in the definition.
+   * @param index Index of the participant in the index
+   * @param fieldDefintion The field that is the participant
+   * @return The participant definition
+   */
+  public UnitIndexParticipantDefinition createParticipant(int index, FieldDef fieldDefintion);
 }
